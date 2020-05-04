@@ -1,0 +1,71 @@
+pub fn part1(input: Vec<String>) -> i32 {
+    let mut twos = 0;
+    let mut threes = 0;
+    for l in &input {
+        let times = two_three_times(l);
+        println!("line: {:?}\t{:?}", &l, &times);
+        if (times.0 > 0) {
+            twos += 1;
+        }
+        if (times.1 > 0) {
+            threes += 1;
+        }
+    }
+    (twos * threes) as i32
+}
+
+pub fn part2(input: Vec<&str>) -> &str {
+    for i in 0..input.len() {
+        for j in i..input.len() {
+            let diff = diff_of(&input[i], &input[j]);
+        }
+    }
+    ""
+}
+
+pub fn diff(a: &str, b: &str) -> &str {
+    let diff = String::new();
+    while (diffs < 3) {
+        for (c, i) in a.char_indices() {
+            if c == b.get(i) {
+                diff.push(c);
+            }
+        }
+    }
+    diff.as_ref()
+}
+
+pub fn two_three_times(input: &str) -> (u32, u32) {
+    let mut occurences = vec![0; 'z' as usize + 1];
+    for c in input.chars() {
+        occurences[c as usize] += 1;
+    }
+    let twos = occurences.iter().filter(|x| **x == 2).count();
+    let threes = occurences.iter().filter(|x| **x == 3).count();
+    (twos as u32, threes as u32)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_two_three_times() {
+        assert_eq!((0, 0), two_three_times("abcdef"));
+        assert_eq!((1, 1), two_three_times("bababc"));
+        assert_eq!((1, 0), two_three_times("abbcde"));
+        assert_eq!((0, 1), two_three_times("abcccd"));
+        assert_eq!((2, 0), two_three_times("aabcdd"));
+        assert_eq!((0, 2), two_three_times("ababab"));
+    }
+
+    #[test]
+    fn test_part2() {
+        assert_eq!(
+            "fgij",
+            part2(vec![
+                "abcde", "fghij", "klmno", "pqrst", "fguij", "axcye", "wvxyz"
+            ])
+        );
+    }
+}
